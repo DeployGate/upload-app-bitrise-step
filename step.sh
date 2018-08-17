@@ -9,9 +9,30 @@ echo "$app_path"
 upload_app() {
   set +e
 
+  local -r all_fields=(
+      "message=$message"
+      "distribution_key=$distribution_key"
+      "distribution_name=$distribution_name"
+      "release_note=$release_note"
+      "disable_notify=$disable_notify"
+      "visibility=$visibility"
+  )
+
+  local field= fields=()
+
+  for field in ${all_fields[@]}; do
+    if [[ "$field" =~ ^.*=$ ]]; then
+      # skip
+      continue
+    else
+      fields+=("-F $field")
+    fi
+  done
+
   curl -# -X POST \
     -H "Authorization: token $api_key" \
     -F "file=@$app_path" \
+    ${fields[@]} \
     "https://deploygate.com/api/users/$owner_name/apps" 
 
   set -e

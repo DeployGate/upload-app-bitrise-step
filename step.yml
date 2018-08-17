@@ -20,27 +20,6 @@ host_os_tags:
   - osx-10.10
   - ubuntu-16.04
 
-# If this step should be available only for certain project types
-# just uncomment this `project_type_tags` section and include all the
-# project types supported by the step. If the step can be used for all
-# project types then you can just remove this section.
-# If no `project_type_tags` specified (or specified as an empty array)
-# that means the step can be used for any project type.
-# You can find more information about project type tags in the Step Development Guideline:
-# https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
-#
-# project_type_tags:
-#   - ios
-#   - macos
-#   - android
-#   - xamarin
-#   - react-native
-#   - cordova
-#   - ionic
-
-# Type tags are used for categorizing steps, for easier step discovery in Step Libraries.
-# You can find more information about type tags in the Step Development Guideline:
-# https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
 type_tags:
   - deploy
 
@@ -57,38 +36,94 @@ deps:
   - name: git
   - name: curl
 
+# Entry point. Never change this.
 
 toolkit:
   bash:
     entry_file: step.sh
 
+# Input definitions of this step
 
 inputs:
   - api_key: ""
     opts:
       title: "DeployGate: API Key"
-      summary: ""
-      description: ""
+      summary: "user's api key or group's api key"
+      description: "The authorization token to be used when uploading app"
       is_required: true
   - owner_name: ""
     opts:
       title: "DeployGate: Owner Name"
-      summary: ""
-      description: ""
+      summary: "User name or Group name"
+      description: |
+        The owner name of this application
       is_required: true
   - app_path: "$BITRISE_APK_PATH"
     opts:
       title: "App file path"
-      summary: ""
-      description: ""
+      summary: "App's binary file (IPA/APK) to be uploaded"
+      description: "App's binary file (IPA/APK) to be uploaded"
       is_required: true
       value_options:
         - $BITRISE_APK_PATH
         - $BITRISE_IPA_PATH
+  - visibility: private
+    opts:
+      title: "DeployGate: app visibility"
+      summary: "the visibility of this app"
+      description: |
+        For newly uploaded apps only, specify the app's privacy settings to either private or public. 
+        By default, Personal Free Plans are set to public, and all other plans are set to private. 
+        This setting does not apply for updates, and any changes made will be ignored.
+      is_required: false
+      value_options:
+        - public
+        - private
+  - message: ""
+    opts:
+      title: "DeployGate: a short message"
+      summary: "A short message to explain this version"
+      description: "A short message to explain this version"
+      is_required: false
+  - distribution_key: ""
+    opts:
+      title: "DeployGate: a distribution key"
+      summary: "The distribution key to be updated"
+      description: |
+        By specifying the distribution page's hash, that distribution page will be updated simultaneously.
+        The "xxxx" portion of the distributed page's URL like /distributions/xxxx
+      is_required: false
+  - distribution_key: ""
+    opts:
+      title: "DeployGate: a distribution name"
+      summary: "The distribution name to be created or be updated"
+      description: |
+        Specify the name of the updated distribution page. 
+        If none exists, a new distribution page will be created. 
+        Possible uses include creating distribution pages for each Git branch name.
+      is_required: false
+  - release_note: ""
+    opts:
+      title: "DeployGate: a release note"
+      summary: "Message displayed during distribution page app updates"
+      description: "Message displayed during distribution page app updates"
+      is_required: false
+  - disable_notify: "false"
+    opts:
+      title: "DeployGate: disable notify"
+      summary: "(iOS only) A setting of true disables Push notification emails."
+      description: "(iOS only) A setting of true disables Push notification emails."
+      is_required: false
+      value_options:
+        - "true"
+        - "false"
+
+# Output definitions of this step.
+# Need to run `envman` to export them.
 
 outputs:
   - DEPLOYGATE_UPLOAD_APP_STEP_RESULT_JSON:
     opts:
-      title: ""
-      summary: ""
-      description: ""
+      title: "DeployGate: API result json"
+      summary: "The raw json which Upload API has returned"
+      description: "The raw json which Upload API has returned"
