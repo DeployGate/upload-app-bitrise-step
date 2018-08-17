@@ -30,7 +30,7 @@ upload_app() {
   curl -# -X POST \
     -H "Authorization: token $api_key" \
     "${fields[@]}" \
-    "http://localhost:3000/api/users/$owner_name/apps" > output.json
+    "https://deploygate.com/api/users/$owner_name/apps" > output.json
 
   set -ex
   return 0

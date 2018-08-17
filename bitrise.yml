@@ -3,18 +3,47 @@ default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 
 app:
   envs:
-  # An example secret param, define it (A_SECRET_PARAM) in .bitrise.secrets.yml
+  # Read vars from .bitrise.secrets.yml
+  
+  - YOUR_API_KEY: $YOUR_API_KEY
+  - APP_OWNER_NAME: $APP_OWNER_NAME
+  - APP_PATH: $APP_PATH
+  
+  # Only for testing.
   - TEST_API_KEY: $TEST_API_KEY
   - TEST_PAID_API_KEY: $TEST_PAID_API_KEY
   - TEST_OWNER_NAME: $TEST_OWNER_NAME
   - TEST_DISTRIBUTION_KEY: $TEST_DISTRIBUTION_KEY
+
   # If you want to share this step into a StepLib
-  - BITRISE_STEP_ID: deploygate---upload-a-single-application-file
-  - BITRISE_STEP_VERSION: "0.0.1"
-  - BITRISE_STEP_GIT_CLONE_URL: https://github.com/DeployGate/bitrise-step-deploygate---upload-a-single-application-file.git
-  - MY_STEPLIB_REPO_FORK_GIT_URL: $MY_STEPLIB_REPO_FORK_GIT_URL
+  - BITRISE_STEP_ID: deploygate--upload-app-bitrise-step
+  - BITRISE_STEP_VERSION: "1.0.0"
+  - BITRISE_STEP_GIT_CLONE_URL: https://github.com/DeployGate/upload-app-bitrise-step.git
+  - MY_STEPLIB_REPO_FORK_GIT_URL: "https://github.com/DeployGate/bitrise-steplib"
 
 workflows:
+  on_local:
+    steps:
+    - change-workdir:
+        title: Switch working dir to run `deploygate--upload-app-bitrise-step`
+        description: |
+          Please provide the workspace which the step can make dirty.
+          The step will create some intermediate files in the workspace.
+        run_if: true
+        inputs:
+        - path: ./_tmp
+        - is_create_path: true
+    - path::./:
+        title: Upload an application 
+        description: |
+          This is a sample upload
+        run_if: true
+        inputs:
+        - api_key: "$YOUR_API_KEY"
+        - owner_name: "$APP_OWNER_NAME"
+        - app_path: $APP_PATH
+        - message: "via Bitrise CLI test"
+
   test:
     steps:
     - change-workdir:
