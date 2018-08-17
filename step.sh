@@ -2,14 +2,11 @@
 
 set -ex
 
-echo "$api_key"
-echo "$owner_name"
-echo "$app_path"
-
 upload_app() {
-  set +e
+  set +ex
 
   local -r all_fields=(
+      "file=@$app_path"
       "message=$message"
       "distribution_key=$distribution_key"
       "distribution_name=$distribution_name"
@@ -20,22 +17,22 @@ upload_app() {
 
   local field= fields=()
 
-  for field in ${all_fields[@]}; do
+  for field in "${all_fields[@]}"; do
     if [[ "$field" =~ ^.*=$ ]]; then
       # skip
       continue
     else
-      fields+=("-F $field")
+      fields+=("-F")
+      fields+=("$field")
     fi
   done
 
   curl -# -X POST \
     -H "Authorization: token $api_key" \
-    -F "file=@$app_path" \
-    ${fields[@]} \
-    "https://deploygate.com/api/users/$owner_name/apps" 
+    "${fields[@]}" \
+    "http://localhost:3000/api/users/$owner_name/apps" > output.json
 
-  set -e
+  set -ex
   return 0
 }
 
@@ -43,7 +40,8 @@ parse_error_field() {
   cat - | ruby -rjson -ne 'puts JSON.parse($_)["error"]'
 }
 
-upload_app > output.json
+upload_app # this will create the `output.json``
+
 envman add --key DEPLOYGATE_UPLOAD_APP_STEP_RESULT_JSON < output.json
 
 if [[ "$(cat output.json | parse_error_field)" == "false" ]]; then

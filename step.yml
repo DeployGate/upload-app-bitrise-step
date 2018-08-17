@@ -67,7 +67,7 @@ inputs:
       value_options:
         - $BITRISE_APK_PATH
         - $BITRISE_IPA_PATH
-  - visibility: private
+  - visibility: ""
     opts:
       title: "DeployGate: app visibility"
       summary: "the visibility of this app"
@@ -93,7 +93,7 @@ inputs:
         By specifying the distribution page's hash, that distribution page will be updated simultaneously.
         The "xxxx" portion of the distributed page's URL like /distributions/xxxx
       is_required: false
-  - distribution_key: ""
+  - distribution_name: ""
     opts:
       title: "DeployGate: a distribution name"
       summary: "The distribution name to be created or be updated"
