@@ -67,7 +67,7 @@ inputs:
       value_options:
         - $BITRISE_APK_PATH
         - $BITRISE_IPA_PATH
-  - visibility: ""
+  - visibility: "private"
     opts:
       title: "DeployGate: app visibility"
       summary: "the visibility of this app"
@@ -75,7 +75,7 @@ inputs:
         For newly uploaded apps only, specify the app's privacy settings to either private or public. 
         By default, Personal Free Plans are set to public, and all other plans are set to private. 
         This setting does not apply for updates, and any changes made will be ignored.
-      is_required: false
+      is_required: true
       value_options:
         - public
         - private
