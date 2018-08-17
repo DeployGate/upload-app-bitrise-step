@@ -14,12 +14,6 @@ app:
 workflows:
   test:
     steps:
-    - script:
-        inputs:
-        - content: |
-            #!/bin/bash
-            echo "Just an example 'secrets' print."
-            echo "The value of 'A_SECRET_PARAM' is: $A_SECRET_PARAM"
     - change-workdir:
         title: Switch working dir to test / _tmp dir
         description: |-
@@ -40,7 +34,9 @@ workflows:
           file if you would not specify another value.
         run_if: true
         inputs:
-        - example_step_input: Example Step Input's value
+        - api_key: "i am api key"
+        - owner_name: i am an owner
+        - app_path: app dato omotta?
     - script:
         inputs:
         - content: |

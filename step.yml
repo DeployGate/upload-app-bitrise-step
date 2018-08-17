@@ -13,9 +13,9 @@ summary: |
   Upload your application file to DeployGate
 description: |
   This is a step to upload your application file to DeployGate. see upload api documents #ref https://docs.deploygate.com/reference#upload
-website: https://github.com/DeployGate/bitrise-step-deploygate---upload-a-single-application-file
-source_code_url: https://github.com/DeployGate/bitrise-step-deploygate---upload-a-single-application-file
-support_url: https://github.com/DeployGate/bitrise-step-deploygate---upload-a-single-application-file/issues
+website: https://github.com/DeployGate/upload-app-bitrise-step
+source_code_url: https://github.com/DeployGate/upload-app-bitrise-step
+support_url: https://github.com/DeployGate/upload-app-bitrise-step/issues
 host_os_tags:
   - osx-10.10
   - ubuntu-16.04
@@ -52,10 +52,10 @@ run_if: ""
 deps:
   brew:
   - name: git
-  - name: wget
+  - name: curl
   apt_get:
   - name: git
-  - name: wget
+  - name: curl
 
 
 toolkit:
@@ -64,24 +64,31 @@ toolkit:
 
 
 inputs:
-  - example_step_input: Default Value - you can leave this empty if you want to
+  - api_key: ""
     opts:
-      title: "Example Step Input"
-      summary: Summary. No more than 2-3 sentences.
-      description: |
-        Description of this input.
-
-        Can be Markdown formatted text.
-      is_expand: true
+      title: "DeployGate: API Key"
+      summary: ""
+      description: ""
       is_required: true
-      value_options: []
+  - owner_name: ""
+    opts:
+      title: "DeployGate: Owner Name"
+      summary: ""
+      description: ""
+      is_required: true
+  - app_path: "$BITRISE_APK_PATH"
+    opts:
+      title: "App file path"
+      summary: ""
+      description: ""
+      is_required: true
+      value_options:
+        - $BITRISE_APK_PATH
+        - $BITRISE_IPA_PATH
 
 outputs:
-  - EXAMPLE_STEP_OUTPUT:
+  - DEPLOYGATE_UPLOAD_APP_STEP_RESULT_JSON:
     opts:
-      title: "Example Step Output"
-      summary: Summary. No more than 2-3 sentences.
-      description: |
-        Description of this output.
-
-        Can be Markdown formatted text.
+      title: ""
+      summary: ""
+      description: ""
