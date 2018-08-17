@@ -8,11 +8,11 @@
 # - Bitrise CLI guides: http://devcenter.bitrise.io/bitrise-cli/
 
 title: |-
-  DeployGate - upload a single application file
+  DeployGate Upload
 summary: |
-  Upload your application file to DeployGate
+  Distribute your in-development iOS/Android apps to your developers or testers
 description: |
-  This is a step to upload your application file to DeployGate. see upload api documents #ref https://docs.deploygate.com/reference#upload
+  This is a step to upload your iOS/Android application to DeployGate. DeployGate enable to share in-development apps with others instantly. For more details, please read references in [DeployGate.com](https://deploygate.com/?locale=en)
 website: https://github.com/DeployGate/upload-app-bitrise-step
 source_code_url: https://github.com/DeployGate/upload-app-bitrise-step
 support_url: https://github.com/DeployGate/upload-app-bitrise-step/issues
@@ -48,7 +48,7 @@ inputs:
   - api_key: ""
     opts:
       title: "DeployGate: API Key"
-      summary: "user's api key or group's api key"
+      summary: "User's API Key or Organization's API Key"
       description: "The authorization token to be used when uploading app"
       is_required: true
   - owner_name: ""
@@ -69,11 +69,13 @@ inputs:
         - $BITRISE_IPA_PATH
   - visibility: "private"
     opts:
-      title: "DeployGate: app visibility"
-      summary: "the visibility of this app"
+      title: "DeployGate: App Visibility"
+      summary: "The viisibility of this app in your profile page"
       description: |
-        For newly uploaded apps only, specify the app's privacy settings to either private or public. 
-        By default, Personal Free Plans are set to public, and all other plans are set to private. 
+        For newly uploaded apps only, specify the app's name and icon privacy settings to either private or public.
+        This is just only for visibility on your apps list in profile page, not for allowing download or install by anonymous.
+        Download or install apps is allowd only your app's member or invitee who knows your generated public link.
+        By default, Personal Free Plans are set to public, and all other plans are set to private.
         This setting does not apply for updates, and any changes made will be ignored.
       is_required: true
       value_options:
@@ -81,21 +83,21 @@ inputs:
         - private
   - message: ""
     opts:
-      title: "DeployGate: a short message"
+      title: "DeployGate: Short Message"
       summary: "A short message to explain this version"
       description: "A short message to explain this version"
       is_required: false
   - distribution_key: ""
     opts:
-      title: "DeployGate: a distribution key"
+      title: "DeployGate: Distribution Key"
       summary: "The distribution key to be updated"
       description: |
         By specifying the distribution page's hash, that distribution page will be updated simultaneously.
-        The "xxxx" portion of the distributed page's URL like /distributions/xxxx
+        The "xxxx" portion of the distributed page's URL like https://deploygate.com/distributions/xxxx
       is_required: false
   - distribution_name: ""
     opts:
-      title: "DeployGate: a distribution name"
+      title: "DeployGate: Distribution Name"
       summary: "The distribution name to be created or be updated"
       description: |
         Specify the name of the updated distribution page. 
@@ -104,7 +106,7 @@ inputs:
       is_required: false
   - release_note: ""
     opts:
-      title: "DeployGate: a release note"
+      title: "DeployGate: Release Note"
       summary: "Message displayed during distribution page app updates"
       description: "Message displayed during distribution page app updates"
       is_required: false
