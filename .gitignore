@@ -2,3 +2,6 @@
 .gows.user.yml
 
 _tmp/
+
+.idea/
+upload-app-bitrise-step.iml
