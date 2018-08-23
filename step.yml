@@ -58,15 +58,14 @@ inputs:
       description: |
         The owner name of this application
       is_required: true
-  - app_path: "$BITRISE_APK_PATH"
+  - app_path: ""
     opts:
       title: "App file path"
       summary: "App's binary file (IPA/APK) to be uploaded"
-      description: "App's binary file (IPA/APK) to be uploaded"
+      description: |
+        App's binary file (IPA/APK) to be uploaded.
+        Example: $BITRISE_APK_PATH or $BITRISE_IPA_PATH or etc
       is_required: true
-      value_options:
-        - $BITRISE_APK_PATH
-        - $BITRISE_IPA_PATH
   - visibility: "private"
     opts:
       title: "DeployGate: App Visibility"
