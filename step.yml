@@ -64,7 +64,7 @@ inputs:
       summary: "App's binary file (IPA/APK) to be uploaded"
       description: |
         App's binary file (IPA/APK) to be uploaded.
-        Example: $BITRISE_APK_PATH or $BITRISE_IPA_PATH or etc
+        $BITRISE_APK_PATH, $BITRISE_IPA_PATH, and so on.
       is_required: true
   - visibility: "private"
     opts:
