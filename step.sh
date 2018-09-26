@@ -29,6 +29,7 @@ upload_app() {
 
   curl -# -X POST \
     -H "Authorization: token $api_key" \
+    -A "bitrise/deploygate--upload-app-bitrise-step" \
     "${fields[@]}" \
     "https://deploygate.com/api/users/$owner_name/apps" > output.json
 
