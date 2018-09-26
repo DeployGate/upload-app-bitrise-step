@@ -1,5 +1,7 @@
 #!/bin/bash
 
+STEP_VERSION=1.0.0
+
 set -ex
 
 upload_app() {
@@ -29,7 +31,7 @@ upload_app() {
 
   curl -# -X POST \
     -H "Authorization: token $api_key" \
-    -A "bitrise/deploygate--upload-app-bitrise-step" \
+    -A "DeployGateUploadAppBitriseStep/$STEP_VERSION" \
     "${fields[@]}" \
     "https://deploygate.com/api/users/$owner_name/apps" > output.json
 
