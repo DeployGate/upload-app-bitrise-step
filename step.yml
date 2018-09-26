@@ -64,12 +64,12 @@ inputs:
       summary: "App's binary file (IPA/APK) to be uploaded"
       description: |
         App's binary file (IPA/APK) to be uploaded.
-        $BITRISE_APK_PATH, $BITRISE_IPA_PATH, and so on.
+        $BITRISE\_APK\_PATH, $BITRISE\_IPA\_PATH, and so on.
       is_required: true
   - visibility: "private"
     opts:
       title: "DeployGate: App Visibility"
-      summary: "The viisibility of this app in your profile page"
+      summary: "The visibility of this app in your profile page"
       description: "For newly uploaded apps only, specify the app's name and icon privacy settings
         to either private or public. \n
         This is just only for visibility on your apps list in profile page, not for allowing download or install by anonymous. \n
