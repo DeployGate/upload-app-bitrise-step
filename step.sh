@@ -1,6 +1,6 @@
 #!/bin/bash
 
-STEP_VERSION=1.0.0
+STEP_VERSION=1.0.1
 
 set -ex
 

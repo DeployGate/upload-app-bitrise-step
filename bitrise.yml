@@ -18,7 +18,7 @@ app:
 
   # If you want to share this step into a StepLib
   - BITRISE_STEP_ID: deploygate--upload-app-bitrise-step
-  - BITRISE_STEP_VERSION: "1.0.0"
+  - BITRISE_STEP_VERSION: "1.0.1"
   - BITRISE_STEP_GIT_CLONE_URL: https://github.com/DeployGate/upload-app-bitrise-step.git
   - MY_STEPLIB_REPO_FORK_GIT_URL: "https://github.com/DeployGate/bitrise-steplib"
 
