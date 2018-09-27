@@ -49,6 +49,7 @@ inputs:
       summary: "User's API Key or Organization's API Key"
       description: "The authorization token to be used when uploading app"
       is_required: true
+      is_sensitive: true
   - owner_name: ""
     opts:
       title: "DeployGate: Owner Name"
