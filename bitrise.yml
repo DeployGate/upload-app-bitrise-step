@@ -18,7 +18,7 @@ app:
 
   # If you want to share this step into a StepLib
   - BITRISE_STEP_ID: deploygate--upload-app-bitrise-step
-  - BITRISE_STEP_VERSION: "1.0.1"
+  - BITRISE_STEP_VERSION: "1.1.0"
   - BITRISE_STEP_GIT_CLONE_URL: https://github.com/DeployGate/upload-app-bitrise-step.git
   - MY_STEPLIB_REPO_FORK_GIT_URL: "https://github.com/DeployGate/bitrise-steplib"
 
@@ -66,8 +66,16 @@ workflows:
         inputs:
         - api_key: "$TEST_PAID_API_KEY"
         - owner_name: "$TEST_PAID_OWNER_NAME"
-        - app_path: sample.apk
+        - app_path: ../fixture/sample.apk
         - message: "via Bitrise CLI test"
+    - script:
+        title: Check if the previous step has added a response to envman properly
+        run_if: true
+        inputs:
+        - content: |
+            #!/bin/bash
+            set -eu
+            echo "The response was: $DEPLOYGATE_UPLOAD_APP_STEP_RESULT_JSON"
     - path::./:
         title: Upload an application with a short message
         description: |
@@ -76,7 +84,7 @@ workflows:
         inputs:
         - api_key: "$TEST_PAID_API_KEY"
         - owner_name: "$TEST_PAID_OWNER_NAME"
-        - app_path: sample.apk
+        - app_path: ../fixture/sample.apk
         - message: "via Bitrise CLI test"
     - path::./:
         title: Upload an application with a distribution name
@@ -86,7 +94,7 @@ workflows:
         inputs:
         - api_key: "$TEST_PAID_API_KEY"
         - owner_name: "$TEST_PAID_OWNER_NAME"
-        - app_path: sample.apk
+        - app_path: ../fixture/sample.apk
         - distribution_name: "BITRISE_CLI_TEST"
     - path::./:
         title: Upload an application with a distribution key
@@ -96,7 +104,7 @@ workflows:
         inputs:
         - api_key: "$TEST_PAID_API_KEY"
         - owner_name: "$TEST_PAID_OWNER_NAME"
-        - app_path: sample.apk
+        - app_path: ../fixture/sample.apk
         - distribution_key: "$TEST_DISTRIBUTION_KEY"
     - path::./:
         title: Upload an application with a visibility
@@ -106,7 +114,7 @@ workflows:
         inputs:
         - api_key: "$TEST_API_KEY"
         - owner_name: "$TEST_OWNER_NAME"
-        - app_path: sample.apk
+        - app_path: ../fixture/sample.apk
         - visibility: "public"
     - path::./:
         title: Upload an application with a release note
@@ -116,9 +124,9 @@ workflows:
         inputs:
         - api_key: "$TEST_PAID_API_KEY"
         - owner_name: "$TEST_PAID_OWNER_NAME"
-        - app_path: sample.apk
+        - app_path: ../fixture/sample.apk
         - distribution_name: "BITRISE_CLI_TEST"
-        - release_note: "distribution dayo"
+        - release_note: "Can you see me?"
     - path::./:
         title: Upload an application with disabling notififications
         description: |
@@ -127,7 +135,7 @@ workflows:
         inputs:
         - api_key: "$TEST_PAID_API_KEY"
         - owner_name: "$TEST_PAID_OWNER_NAME"
-        - app_path: sample.ipa
+        - app_path: ../fixture/sample.ipa
         - disable_notify: "true"
 
 
