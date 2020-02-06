@@ -1,12 +1,9 @@
 #!/bin/bash
 
-STEP_VERSION=1.0.1
-
-set -ex
+readonly STEP_VERSION=1.1.0
+readonly output_file="output.json"
 
 upload_app() {
-  set +ex
-
   local -r all_fields=(
       "file=@$app_path"
       "message=$message"
@@ -30,13 +27,12 @@ upload_app() {
   done
 
   curl -# -X POST \
+    -o "$output_file" \
     -H "Authorization: token $api_key" \
+    -H "Accept: application/json" \
     -A "DeployGateUploadAppBitriseStep/$STEP_VERSION" \
     "${fields[@]}" \
-    "https://deploygate.com/api/users/$owner_name/apps" > output.json
-
-  set -ex
-  return 0
+    "https://deploygate.com/api/users/$owner_name/apps"
 }
 
 parse_error_field() {
@@ -45,14 +41,8 @@ parse_error_field() {
 
 upload_app # this will create the `output.json``
 
-envman add --key DEPLOYGATE_UPLOAD_APP_STEP_RESULT_JSON --valuefile output.json
+envman add --key DEPLOYGATE_UPLOAD_APP_STEP_RESULT_JSON --valuefile "$output_file"
 
-if [[ "$(cat output.json | parse_error_field)" == "false" ]]; then
-  # upload successfully
-  cat output.json
-  exit 0
-else
-  # WTF
-  cat output.json
-  exit 1
-fi
+cat "$output_file"
+
+[[ "$(cat output.json | parse_error_field)" == "false" ]]
