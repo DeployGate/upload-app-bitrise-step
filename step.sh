@@ -45,7 +45,7 @@ parse_error_field() {
 
 upload_app # this will create the `output.json``
 
-envman add --key DEPLOYGATE_UPLOAD_APP_STEP_RESULT_JSON < output.json
+envman add --key DEPLOYGATE_UPLOAD_APP_STEP_RESULT_JSON --valuefile output.json
 
 if [[ "$(cat output.json | parse_error_field)" == "false" ]]; then
   # upload successfully
