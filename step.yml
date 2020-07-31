@@ -50,6 +50,7 @@ inputs:
       description: "The authorization token to be used when uploading app"
       is_required: true
       is_sensitive: true
+      is_expand: true
   - owner_name: ""
     opts:
       title: "DeployGate: Owner Name"
