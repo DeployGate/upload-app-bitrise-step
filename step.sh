@@ -1,6 +1,6 @@
 #!/bin/bash
 
-readonly STEP_VERSION=1.1.0
+readonly STEP_VERSION=1.1.1
 readonly output_file="output.json"
 
 upload_app() {
