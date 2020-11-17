@@ -1,6 +1,6 @@
 # DeployGate - upload a single application file
 
-This is the offical step to upload your application file to DeployGate.  
+This is the offical step to upload your application file to DeployGate.
 
 This step requires some values so please see the document for more details. ref: https://docs.deploygate.com/reference#upload
 

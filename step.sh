@@ -3,6 +3,19 @@
 readonly STEP_VERSION=1.1.1
 readonly output_file="output.json"
 
+info() {
+  echo "[INFO] $@"
+}
+
+err() {
+  echo "[ERROR] $@" 1>&2
+}
+
+fatal() {
+  err "$@"
+  exit 1
+}
+
 upload_app() {
   local -r all_fields=(
       "file=@$app_path"
@@ -26,7 +39,7 @@ upload_app() {
     fi
   done
 
-  curl -# -X POST \
+  curl -L# -X POST \
     -o "$output_file" \
     -H "Authorization: token $api_key" \
     -H "Accept: application/json" \
@@ -39,10 +52,21 @@ parse_error_field() {
   cat - | ruby -rjson -ne 'puts JSON.parse($_)["error"]'
 }
 
-upload_app # this will create the `output.json``
+if [[ ! -f "$app_path" ]]; then
+  fatal "$app_path is not found. Please make sure the application file has been successfuly created in the previous steps."
+fi
+
+# this will create the `output.json``
+if ! upload_app; then
+  fatal "your upload request failed and didn't reach to the server due to misconfiguration."
+fi
 
 envman add --key DEPLOYGATE_UPLOAD_APP_STEP_RESULT_JSON --valuefile "$output_file"
 
 cat "$output_file"
 
-[[ "$(cat output.json | parse_error_field)" == "false" ]]
+if [[ "$(cat output.json | parse_error_field)" == "false" ]]; then
+  info "Uploaded successfully."
+else
+  fatal "Your upload failed."
+fi
