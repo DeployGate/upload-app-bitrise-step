@@ -64,9 +64,10 @@ fi
 envman add --key DEPLOYGATE_UPLOAD_APP_STEP_RESULT_JSON --valuefile "$output_file"
 
 cat "$output_file"
+echo
 
 if [[ "$(cat output.json | parse_error_field)" == "false" ]]; then
   info "Uploaded successfully."
 else
-  fatal "Your upload failed."
+  fatal "Upload failed."
 fi
