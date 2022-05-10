@@ -107,16 +107,6 @@ workflows:
         - app_path: ../fixture/sample.apk
         - distribution_key: "$TEST_DISTRIBUTION_KEY"
     - path::./:
-        title: Upload an application with a visibility
-        description: |
-          Upload an application with a public visibility
-        run_if: true
-        inputs:
-        - api_key: "$TEST_API_KEY"
-        - owner_name: "$TEST_OWNER_NAME"
-        - app_path: ../fixture/sample.apk
-        - visibility: "public"
-    - path::./:
         title: Upload an application with a release note
         description: |
           Upload an application with a distribution release ntoe

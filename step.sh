@@ -24,7 +24,6 @@ upload_app() {
       "distribution_name=$distribution_name"
       "release_note=$release_note"
       "disable_notify=$disable_notify"
-      "visibility=$visibility"
   )
 
   local field= fields=()
