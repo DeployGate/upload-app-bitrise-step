@@ -1,6 +1,6 @@
 #!/bin/bash
 
-readonly STEP_VERSION=1.1.1
+readonly STEP_VERSION=1.1.2
 readonly output_file="output.json"
 
 info() {
