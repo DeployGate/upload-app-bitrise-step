@@ -66,28 +66,6 @@ inputs:
         App's binary file (IPA/APK/AAB) to be uploaded.
         $BITRISE\_APK\_PATH, $BITRISE\_IPA\_PATH, and so on.
       is_required: true
-  - visibility: "private"
-    opts:
-      title: "DeployGate: App Visibility"
-      summary: "The visibility of this app in your profile page"
-      description: "For newly uploaded apps only, specify the app's name and icon privacy settings
-        to either private or public. \n
-        This is just only for visibility on your apps list in profile page, not for allowing download or install by anonymous. \n
-        Download or install apps is allowd only your app's member or invitee who knows your generated public link.\n
-        \nBy default, Personal Free Plans are set to public,
-        and all other plans are set to private. \n
-        This setting does not apply for updates,
-        and any changes made will be ignored.\n"
-      description: |
-        For newly uploaded apps only, specify the app's name and icon privacy settings to either private or public.
-        This is just only for visibility on your apps list in profile page, not for allowing download or install by anonymous.
-        Download or install apps is allowd only your app's member or invitee who knows your generated public link.
-        By default, Personal Free Plans are set to public, and all other plans are set to private.
-        This setting does not apply for updates, and any changes made will be ignored.
-      is_required: true
-      value_options:
-        - public
-        - private
   - message: ""
     opts:
       title: "DeployGate: Short Message"
