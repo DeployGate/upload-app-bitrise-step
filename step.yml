@@ -112,5 +112,5 @@ outputs:
   - DEPLOYGATE_UPLOAD_APP_STEP_RESULT_JSON:
     opts:
       title: "DeployGate: API result json"
-      summary: "The raw json which Upload API has returned. Available iff the request has been sent to DeployGate server."
+      summary: "The raw json which Upload API has returned. Available if the request has been sent to DeployGate server."
       description: "The raw json which Upload API has returned"
