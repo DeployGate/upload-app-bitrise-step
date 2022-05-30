@@ -47,3 +47,4 @@ jobs:
         env:
           GIT_PR_RELEASE_BRANCH_STAGING: ${{ steps.branch.outputs.result }}
           GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_PR_RELEASE__CUSTOM__NEW_VERSION: ${{ steps.version.outputs.result }}
