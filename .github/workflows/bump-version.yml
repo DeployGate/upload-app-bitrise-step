@@ -13,22 +13,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: gem install git-pr-release
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - id: version
+        run: echo "::set-output name=result::${{ github.event.inputs.version || '1.2' }}"
       - id: branch
         name: create a branch
         run: |
-          readonly branch_name='bump/${{ github.event.inputs.version }}'
+          readonly branch_name='bump/${{ steps.version.outputs.result }}'
 
           git switch -c "$branch_name"
           echo "::set-output name=result::$branch_name"
-      - run: ruby .ci/reflect-version '${{ github.event.inputs.version }}'
+      - run: ruby .ci/reflect-version '${{ steps.version.outputs.result }}'
       - name: commit and create a pull request
         run: |
           git config user.email 'services+github-actions@deploygate.com'
           git config user.name 'deploygate-github-actions'
 
           git add .
-          git commit -m ":tada: bump up to ${{ github.event.inputs.version }}"
+          git commit -m ":tada: bump up to ${{ steps.version.outputs.result }}"
           git push origin '${{ steps.branch.outputs.result }}'
       - name: create a pull request
         run: |          
@@ -38,7 +42,7 @@ jobs:
 
           gh pr create \
             --base master \
-            --title "Bump up to ${{ github.event.inputs.version }}" \
+            --title "Bump up to ${{ steps.version.outputs.result }}" \
             --body-file "$pr_body" \
             --reviewer '${{ github.actor }}'
         env:
