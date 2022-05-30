@@ -40,4 +40,4 @@ runs:
 
         rm ${{ inputs.version }}-checksum.txt.current
 
-        echo "$PWD/bitrise" >> $GITHUB_PATH
+        echo "$PWD" >> $GITHUB_PATH
