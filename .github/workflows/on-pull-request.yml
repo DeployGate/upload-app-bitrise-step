@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-bitrise
       - run: |
-          ruby -rerb -e 'File.write("bitrise.secrets.yml", ERB.new(File.read(ARGV[0])).result(binding))' bitrise.secrets.yml.erb
+          ruby -rerb -e 'File.write(".bitrise.secrets.yml", ERB.new(File.read(ARGV[0])).result(binding))' .bitrise.secrets.yml.erb
           bitrise run test
         env:
           DEPLOYGATE_API_TOKEN: ${{ secrets.SHARED_DEPLOYGATE_API_TOKEN_FOR_PUBLIC_REPO }}
