@@ -16,7 +16,7 @@ jobs:
         with:
           bundler-cache: true
       - id: version
-        run: echo "::set-output name=result::${{ github.event.inputs.version || '1.2' }}"
+        run: echo "::set-output name=result::${{ github.event.inputs.version }}"
       - id: branch
         name: create a branch
         run: |
