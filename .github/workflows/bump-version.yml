@@ -1,7 +1,6 @@
 name: Bump the step version
 
 on:
-  push: # for testing
   workflow_dispatch:
     inputs:
       version:

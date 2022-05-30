@@ -7,8 +7,11 @@ File.open(output_path, "w") do |dest|
   File.open(input_path, 'r') do |src|
     do_extract = false
 
-    f.each_line do |line|
-      do_extract = line == '<evaluated-template>' unless do_extract
+    src.each_line do |line|
+      if !do_extract && line.include?('<evaluated-template>')
+        do_extract = true
+        next
+      end
 
       next unless do_extract
       break if line.include?('</evaluated-template>')
