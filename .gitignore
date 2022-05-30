@@ -5,3 +5,6 @@ _tmp/
 
 .idea/
 upload-app-bitrise-step.iml
+
+.bundle/
+vendor/bundle/

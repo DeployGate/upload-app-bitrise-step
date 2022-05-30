@@ -1,0 +1,4 @@
+[pr-release "branch"]
+  production = master
+[pr-release]
+  template = .ci/templates/release_pr_body.md
