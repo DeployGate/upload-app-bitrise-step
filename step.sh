@@ -18,7 +18,6 @@ fatal() {
 
 upload_app() {
   local -r all_fields=(
-      "file=@$app_path"
       "message=$message"
       "distribution_key=$distribution_key"
       "distribution_name=$distribution_name"
@@ -33,7 +32,7 @@ upload_app() {
       # skip
       continue
     else
-      fields+=("-F")
+      fields+=("--form-string")
       fields+=("$field")
     fi
   done
@@ -43,6 +42,7 @@ upload_app() {
     -H "Authorization: token $api_key" \
     -H "Accept: application/json" \
     -A "DeployGateUploadAppBitriseStep/$STEP_VERSION" \
+    -F "file=@$app_path" \
     "${fields[@]}" \
     "https://deploygate.com/api/users/$owner_name/apps"
 }
