@@ -1,0 +1,43 @@
+
+name: Setup bitrise cli
+description: 'Cache bitrise cli with version management.'
+author: '@jmatsu'
+inputs:
+  version: # for DRY
+    required: false
+    description: the version of Bitrise CLI. https://github.com/bitrise-io/bitrise/releases
+    default: "1.49.0"
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/cache@v3
+      with:
+        path: |
+          ${{ github.action_path }}/bitrise
+        key: ${{ runner.os }}-${{ inputs.version }}
+    - shell: bash
+      run: |
+        cd ${{ github.action_path }}
+
+        if [[ ! -f ${{ inputs.version }}-checksum.txt ]]; then
+          echo '::error::checksum information of ${{ inputs.version }} is not found'
+          exit 1
+        fi
+
+        if [[ ! -f bitrise ]]; then
+          curl -X GET \
+            -sfSL \
+            -o bitrise \
+            --url 'https://github.com/bitrise-io/bitrise/releases/download/${{ inputs.version }}/bitrise-Linux-x86_64'
+        fi
+
+        cksum bitrise > ${{ inputs.version }}-checksum.txt.current
+
+        if ! diff ${{ inputs.version }}-checksum.txt ${{ inputs.version }}-checksum.txt.current; then
+          echo '::error::downloaded bitrise-cli may be corrupted?'
+          exit 1
+        fi
+
+        rm ${{ inputs.version }}-checksum.txt.current
+
+        echo "$PWD/bitrise" >> $GITHUB_PATH
