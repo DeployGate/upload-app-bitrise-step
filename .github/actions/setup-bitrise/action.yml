@@ -38,6 +38,8 @@ runs:
           exit 1
         fi
 
+        chmod +x bitrise
+
         rm ${{ inputs.version }}-checksum.txt.current
 
         echo "$PWD" >> $GITHUB_PATH
