@@ -1,0 +1,50 @@
+name: Bump the step version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "a version"
+        required: true
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - id: version
+        run: echo "::set-output name=result::${{ github.event.inputs.version }}"
+      - id: branch
+        name: create a branch
+        run: |
+          readonly branch_name='bump/${{ steps.version.outputs.result }}'
+
+          git switch -c "$branch_name"
+          echo "::set-output name=result::$branch_name"
+      - run: ruby .ci/reflect-version '${{ steps.version.outputs.result }}'
+      - name: commit and create a pull request
+        run: |
+          git config user.email 'services+github-actions@deploygate.com'
+          git config user.name 'deploygate-github-actions'
+
+          git add .
+          git commit -m ":tada: bump up to ${{ steps.version.outputs.result }}"
+          git push origin '${{ steps.branch.outputs.result }}'
+      - name: create a pull request
+        run: |          
+          readonly intermediate="$(mktemp)" pr_body="$(mktemp)"
+          bin/git-pr-release --dry-run --no-fetch >"$intermediate" 2>&1
+          .ci/extract-git-pr-release-body "$intermediate" "$pr_body"
+
+          gh pr create \
+            --base master \
+            --title "Bump up to ${{ steps.version.outputs.result }}" \
+            --body-file "$pr_body" \
+            --reviewer '${{ github.actor }}'
+        env:
+          GIT_PR_RELEASE_BRANCH_STAGING: ${{ steps.branch.outputs.result }}
+          GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_PR_RELEASE__CUSTOM__NEW_VERSION: ${{ steps.version.outputs.result }}

@@ -24,3 +24,7 @@ added to your `.bitrise.secrets.yml` file!*
   * You can find more example of alternative step referencing at: https://github.com/bitrise-io/bitrise/blob/master/_examples/tutorials/steps-and-workflows/bitrise.yml
 7. Once you're done just commit your changes & create a Pull Request to this repository
 
+## Release
+
+- Run [this workflow](.github/workflows/bump-version.yml) to bump the version
+- Follow the description of the new pull request
