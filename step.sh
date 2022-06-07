@@ -1,6 +1,6 @@
 #!/bin/bash
 
-readonly STEP_VERSION=1.1.2 # id=step-version : Do not modify this line manually.
+readonly STEP_VERSION=1.1.3 # id=step-version : Do not modify this line manually.
 
 readonly output_file="output.json"
 
