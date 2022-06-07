@@ -1,4 +1,5 @@
 .bitrise*
+!.bitrise.secrets.yml.erb
 .gows.user.yml
 
 _tmp/
