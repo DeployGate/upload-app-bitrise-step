@@ -118,6 +118,10 @@ info "Creating a local branch of $head_branch tag"
 git fetch origin "$head_branch:$head"
 git branch "$head" "origin/$head" || warn "$head already exists"
 
+info "Fetch commits since the date of $baseline_tag"
+
+git fetch origin --shallow-since "$(git log -1 --format=%cs "$baseline")"
+
 info "Get all commits between $baseline..$head" 
 
 git log --format=%H "$baseline".."$head" > "$COMMIT_HASHES"
