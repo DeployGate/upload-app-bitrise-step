@@ -1,25 +1,18 @@
+---
 format_version: 4
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
-
 app:
   envs:
-  # Read vars from .bitrise.secrets.yml
-  
-  - YOUR_API_KEY: $YOUR_API_KEY
-  - APP_OWNER_NAME: $APP_OWNER_NAME
-  - APP_PATH: $APP_PATH
-  
-  # Only for testing.
-  - TEST_PAID_API_KEY: $TEST_PAID_API_KEY
-  - TEST_PAID_OWNER_NAME: $TEST_PAID_OWNER_NAME
-  - TEST_DISTRIBUTION_KEY: $TEST_DISTRIBUTION_KEY
-
-  # If you want to share this step into a StepLib
+  - YOUR_API_KEY: "$YOUR_API_KEY"
+  - APP_OWNER_NAME: "$APP_OWNER_NAME"
+  - APP_PATH: "$APP_PATH"
+  - TEST_PAID_API_KEY: "$TEST_PAID_API_KEY"
+  - TEST_PAID_OWNER_NAME: "$TEST_PAID_OWNER_NAME"
+  - TEST_DISTRIBUTION_KEY: "$TEST_DISTRIBUTION_KEY"
   - BITRISE_STEP_ID: deploygate--upload-app-bitrise-step
-  - BITRISE_STEP_VERSION: "1.1.2"
   - BITRISE_STEP_GIT_CLONE_URL: https://github.com/DeployGate/upload-app-bitrise-step.git
-  - MY_STEPLIB_REPO_FORK_GIT_URL: "https://github.com/DeployGate/bitrise-steplib"
-
+  - MY_STEPLIB_REPO_FORK_GIT_URL: https://github.com/DeployGate/bitrise-steplib
+  - BITRISE_STEP_VERSION: 1.1.3
 workflows:
   on_local:
     steps:
@@ -30,19 +23,19 @@ workflows:
           The step will create some intermediate files in the workspace.
         run_if: true
         inputs:
-        - path: ./_tmp
+        - path: "./_tmp"
         - is_create_path: true
     - path::./:
-        title: Upload an application 
-        description: |
-          This is a sample upload
+        title: Upload an application
+        description: 'This is a sample upload
+
+          '
         run_if: true
         inputs:
         - api_key: "$YOUR_API_KEY"
         - owner_name: "$APP_OWNER_NAME"
-        - app_path: $APP_PATH
-        - message: "via Bitrise CLI test"
-
+        - app_path: "$APP_PATH"
+        - message: via Bitrise CLI test
   test:
     steps:
     - change-workdir:
@@ -54,18 +47,19 @@ workflows:
           but would break if the step is included in another `bitrise.yml`.
         run_if: true
         inputs:
-        - path: ./_tmp
+        - path: "./_tmp"
         - is_create_path: true
     - path::./:
         title: Upload an application w/o extra parameters
-        description: |
-          Upload an application w/o extra parameters
+        description: 'Upload an application w/o extra parameters
+
+          '
         run_if: true
         inputs:
         - api_key: "$TEST_PAID_API_KEY"
         - owner_name: "$TEST_PAID_OWNER_NAME"
-        - app_path: ../fixture/sample.apk
-        - message: "via Bitrise CLI test"
+        - app_path: "../fixture/sample.apk"
+        - message: via Bitrise CLI test
     - script:
         title: Check if the previous step has added a response to envman properly
         run_if: true
@@ -76,59 +70,60 @@ workflows:
             echo "The response was: $DEPLOYGATE_UPLOAD_APP_STEP_RESULT_JSON"
     - path::./:
         title: Upload an application with a short message
-        description: |
-          Upload an application with a short message
+        description: 'Upload an application with a short message
+
+          '
         run_if: true
         inputs:
         - api_key: "$TEST_PAID_API_KEY"
         - owner_name: "$TEST_PAID_OWNER_NAME"
-        - app_path: ../fixture/sample.apk
-        - message: "via Bitrise CLI test"
+        - app_path: "../fixture/sample.apk"
+        - message: via Bitrise CLI test
     - path::./:
         title: Upload an application with a distribution name
-        description: |
-          Upload an application with a distribution name
+        description: 'Upload an application with a distribution name
+
+          '
         run_if: true
         inputs:
         - api_key: "$TEST_PAID_API_KEY"
         - owner_name: "$TEST_PAID_OWNER_NAME"
-        - app_path: ../fixture/sample.apk
-        - distribution_name: "BITRISE_CLI_TEST"
+        - app_path: "../fixture/sample.apk"
+        - distribution_name: BITRISE_CLI_TEST
     - path::./:
         title: Upload an application with a distribution key
-        description: |
-          Upload an application with a distribution key
+        description: 'Upload an application with a distribution key
+
+          '
         run_if: true
         inputs:
         - api_key: "$TEST_PAID_API_KEY"
         - owner_name: "$TEST_PAID_OWNER_NAME"
-        - app_path: ../fixture/sample.apk
+        - app_path: "../fixture/sample.apk"
         - distribution_key: "$TEST_DISTRIBUTION_KEY"
     - path::./:
         title: Upload an application with a release note
-        description: |
-          Upload an application with a distribution release ntoe
+        description: 'Upload an application with a distribution release ntoe
+
+          '
         run_if: true
         inputs:
         - api_key: "$TEST_PAID_API_KEY"
         - owner_name: "$TEST_PAID_OWNER_NAME"
-        - app_path: ../fixture/sample.apk
-        - distribution_name: "BITRISE_CLI_TEST"
-        - release_note: "Can you see me?"
+        - app_path: "../fixture/sample.apk"
+        - distribution_name: BITRISE_CLI_TEST
+        - release_note: Can you see me?
     - path::./:
         title: Upload an application with disabling notififications
-        description: |
-          Upload an application with disabling notififications
+        description: 'Upload an application with disabling notififications
+
+          '
         run_if: true
         inputs:
         - api_key: "$TEST_PAID_API_KEY"
         - owner_name: "$TEST_PAID_OWNER_NAME"
-        - app_path: ../fixture/sample.ipa
-        - disable_notify: "true"
-
-
-  # ----------------------------------------------------------------
-  # --- workflows to Share this step into a Step Library
+        - app_path: "../fixture/sample.ipa"
+        - disable_notify: 'true'
   audit-this-step:
     steps:
     - script:
@@ -137,14 +132,12 @@ workflows:
             #!/bin/bash
             set -ex
             stepman audit --step-yml ./step.yml
-
   share-this-step:
     envs:
-      # if you want to share this step into a StepLib
-      - MY_STEPLIB_REPO_FORK_GIT_URL: $MY_STEPLIB_REPO_FORK_GIT_URL
-      - BITRISE_STEP_ID: $BITRISE_STEP_ID
-      - BITRISE_STEP_VERSION: $BITRISE_STEP_VERSION
-      - BITRISE_STEP_GIT_CLONE_URL: $BITRISE_STEP_GIT_CLONE_URL
+    - MY_STEPLIB_REPO_FORK_GIT_URL: "$MY_STEPLIB_REPO_FORK_GIT_URL"
+    - BITRISE_STEP_ID: "$BITRISE_STEP_ID"
+    - BITRISE_STEP_VERSION: "$BITRISE_STEP_VERSION"
+    - BITRISE_STEP_GIT_CLONE_URL: "$BITRISE_STEP_GIT_CLONE_URL"
     description: |-
       If this is the first time you try to share a Step you should
       first call: $ bitrise share
