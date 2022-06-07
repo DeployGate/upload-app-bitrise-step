@@ -1,7 +1,10 @@
-name: Run on pull requests
+name: Run tests
 
 on:
   pull_request:
+  push:
+    branches:
+      - master
 
 jobs:
   test:
