@@ -43,7 +43,7 @@ jobs:
       - name: create a pull request
         run: |          
           readonly intermediate="$(mktemp)" pr_body="$(mktemp)"
-          bin/git-pr-release --dry-run >"$intermediate" 2>&1
+          bin/git-pr-release --dry-run 2>&1 | tee "$intermediate"
           .ci/extract-git-pr-release-body "$intermediate" "$pr_body"
 
           gh pr create \
