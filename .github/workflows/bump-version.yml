@@ -20,7 +20,10 @@ jobs:
       - id: current-version
         run: echo "::set-output name=result::$(.ci/get-version)"
       - name: create the branch of the tag of the current version # with 'origin' prefix to cheat
-        run: git branch origin/${{ steps.current-version.outputs.result }} refs/tags/${{ steps.current-version.outputs.result }}
+        run: |
+          readonly tag_name='${{ steps.current-version.outputs.result }}'
+          git fetch origin refs/tags/$tag_name:refs/tags/$tag_name
+          git branch origin/$tag_name refs/tags/$tag_name
       - id: branch
         name: create a branch
         run: |
