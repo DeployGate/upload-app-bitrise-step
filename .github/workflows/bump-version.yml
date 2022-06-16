@@ -12,11 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: ruby/setup-ruby@v1
         with:
-          bundler-cache: true
+          fetch-depth: 0 # for now...
       - id: version
         run: echo "::set-output name=result::${{ github.event.inputs.version }}"
+      - id: current-version
+        run: echo "::set-output name=result::$(.ci/get-version)"
       - id: branch
         name: create a branch
         run: |
@@ -24,7 +25,7 @@ jobs:
 
           git switch -c "$branch_name"
           echo "::set-output name=result::$branch_name"
-      - run: ruby .ci/reflect-version '${{ steps.version.outputs.result }}'
+      - run: .ci/reflect-version '${{ steps.version.outputs.result }}'
       - name: commit and create a pull request
         run: |
           git config user.email 'services+github-actions@deploygate.com'
@@ -34,10 +35,10 @@ jobs:
           git commit -m ":tada: bump up to ${{ steps.version.outputs.result }}"
           git push origin '${{ steps.branch.outputs.result }}'
       - name: create a pull request
-        run: |          
-          readonly intermediate="$(mktemp)" pr_body="$(mktemp)"
-          bin/git-pr-release --dry-run --no-fetch >"$intermediate" 2>&1
-          .ci/extract-git-pr-release-body "$intermediate" "$pr_body"
+        run: |
+          readonly pr_body="$(mktemp)"
+
+          .ci/evaluate-pr-body-template ${{ steps.current-version.outputs.result }} ${{ steps.branch.outputs.result }} | tee "$pr_body"
 
           gh pr create \
             --base master \
@@ -45,6 +46,4 @@ jobs:
             --body-file "$pr_body" \
             --reviewer '${{ github.actor }}'
         env:
-          GIT_PR_RELEASE_BRANCH_STAGING: ${{ steps.branch.outputs.result }}
-          GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GIT_PR_RELEASE__CUSTOM__NEW_VERSION: ${{ steps.version.outputs.result }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
