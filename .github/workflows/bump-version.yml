@@ -15,16 +15,16 @@ jobs:
         with:
           fetch-depth: 0 # for now...
       - id: version
-        run: echo "::set-output name=result::${{ github.event.inputs.version }}"
+        run: echo "result=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
       - id: current-version
-        run: echo "::set-output name=result::$(.ci/get-version)"
+        run: echo "result=$(.ci/get-version)" >> $GITHUB_OUTPUT
       - id: branch
         name: create a branch
         run: |
           readonly branch_name='bump/${{ steps.version.outputs.result }}'
 
           git switch -c "$branch_name"
-          echo "::set-output name=result::$branch_name"
+          echo "result=$branch_name" >> $GITHUB_OUTPUT
       - run: .ci/reflect-version '${{ steps.version.outputs.result }}'
       - name: commit and create a pull request
         run: |
